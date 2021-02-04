@@ -111,7 +111,7 @@ class Reservation{
             if($this->heure1 == "Heure") {
                 array_push($errors, "Choisissez une heure de départ ! ");
             }
-            $sel = $dbco->prepare("SELECT * FROM reservationsalles");
+            $sel = $dbco->prepare("SELECT * FROM reservations");
             $sel->execute();
             foreach ($sel as $row) {
                 if ($row["titre"] == $this->for_titre) {

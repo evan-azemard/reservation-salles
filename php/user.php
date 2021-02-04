@@ -139,8 +139,6 @@ class Utilisateurs{
             return  $errors ;
         }
 
-
-
     }
 
 
@@ -239,7 +237,6 @@ class Utilisateurs{
 
     }
 }
-//claude    9. 45 
 
 
 ?>

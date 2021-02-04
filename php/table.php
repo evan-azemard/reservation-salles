@@ -111,7 +111,7 @@ class Reservation{
             	if($this->heure1 == "Heure") {
                 array_push($errors, "Choisissez une heure de départ ! ");
             	}
-            	$sel = $dbco->prepare("SELECT * FROM reservationsalles");
+            	$sel = $dbco->prepare("SELECT * FROM reservations");
             	$sel->execute();
                 foreach ($sel as $row) {            
                     if ($row["titre"] == $this->for_titre) {    
@@ -127,13 +127,12 @@ class Reservation{
             	foreach ($sel as $row) {
             	$id = $row["id"];
             	}  
-        		$this->setId($id);
-
-				$sql = $dbco->prepare("INSERT INTO reservations(titre, description, id_utilisateur, debut, fin) VALUES (?, ?, ?, ?, ?)");
-				$sql->execute(array($this->for_titre, $this->textarea, $this->id, $this->re, $this->re2));
-			    redirect("planning.php");
+                $this->setId($id);
+                $sql = $dbco->prepare("INSERT INTO reservations(titre, description, id_utilisateur, debut, fin) VALUES (?, ?, ?, ?, ?)");
+                $sql->execute(array($this->for_titre, $this->textarea, $this->id, $this->re, $this->re2));
+			    // redirect("planning.php");
 				}else{
-		   	    	return  $errors ;
+		   	    return  $errors ;
 			    }
 
         	}

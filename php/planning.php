@@ -40,7 +40,7 @@ require_once('../library/utils.php');
         <div id="index_header_menu">
 
         </div>
-        <?php centreTitre()?>
+        <?php centreTitre2()?>
         <h1>Tartanpion</h1>
     </div>
     <?php pseudo(); ?>

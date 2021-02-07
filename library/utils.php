@@ -58,7 +58,15 @@ function centreTitre(){
 			echo '<div id="index_header_titre">';
 		}
 }
+//centrage tire du planning
+function centreTitre2(){
 
+		if(!isset($_SESSION['id'])){
+			echo '<div id="index_header_titre_deco2">';
+		}else{
+			echo '<div id="index_header_titre2">';
+		}
+}
 
 //donner  accées si pas connecté
 function access($urla,$urlb = null){

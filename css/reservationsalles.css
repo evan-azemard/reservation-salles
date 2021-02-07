@@ -159,7 +159,15 @@ a{
 #index_header_menu{
 	background-color: red;
 }
-
+#index_header_titre_deco2{
+	font-size: 4vh;
+	height: 5vh;
+	margin-top: -2%;
+	color: white;
+	margin-right: 46%;
+	position: relative;
+	margin-top: 2%;
+}
 #index_header_titre_deco{
 	font-size: 4vh;
 	height: 5vh;
@@ -173,6 +181,15 @@ a{
 	font-size: 4vh;
 	height: 5vh;
 	margin-top: -2%;
+	color: white;
+	margin-left: 6.2%;
+	position: relative;
+}
+
+#index_header_titre2{
+	font-size: 4vh;
+	height: 5vh;
+	margin-top: 2%;
 	color: white;
 	margin-left: 6.2%;
 	position: relative;

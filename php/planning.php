@@ -7,8 +7,9 @@ require_once('../library/utils.php');
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <!-- 	<script src="https://use.fontawesome.com/d3028f0b61.js"></script>
-     -->	<link rel="stylesheet" type="text/css" href="../css/reservationsalles.css">
+ --><link rel="stylesheet" type="text/css" href="../css/reservationsalles.css">
     <link rel="shortcut icon" href="https://th.bing.com/th/id/OIP.W-ukJI6sI6FTEyYw1i5TVAHaLG?w=137&h=205&c=7&o=5&pid=1.7"/>
     <link rel="preconnect">
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -54,41 +55,40 @@ require_once('../library/utils.php');
     </div>
 </header>
 <main id="planning_main">
-    <div id="planning_container_titre">
-        <div id="planning_container_titre_h1">
             <?php
-            $month = new Month($_GET['month'] ?? null, $_GET['year'] ?? null);
-            $start = $month->getStartingDay()->modify('last monday');
+require 'Month.php';
+$month = new Month($_GET['month'] ?? null, $_GET['year'] ?? null);
+$start = $month->getStartingDay()->modify('last monday');
+?>
+
+<div class="d-flex flex-row aligne-item-center justify-content-between mx-sm-3">
+    <h1><?= $month->toString(); ?></h1>
+    <div>
+        <a href="planning.php?month=<?= $month->previoustMonth()->month; ?>&year=<?= $month->previoustMonth()->year; ?>" class="btn btn-primary">&lt</a>
+        <a href="planning.php?month=<?= $month->nextMonth()->month; ?>&year=<?= $month->nextMonth()->year; ?>" class="btn btn-primary">&gt</a>
+    </div>
+</div>
+
+
+<table class="calendar__table calendar__table--<?= $month->getWeeks(); ?>weeks" >
+    <?php for ($i = 0; $i < $month->getWeeks(); $i++): ?>
+    <thead>
+        <tr>
+            <?php
+        foreach ($month->days as $k => $day):
+            $date = (clone $start)->modify("+" . ($k + $i * 7) . "days")
             ?>
-            <h1><?= $month->toString(); ?></h1>
-        </div>
-        <div>
-            <a href="planning.php?month=<?= $month->previousMonth()->month; ?>&year=<?= $month->previousMonth()->year; ?>" class="btn btn-primary">&lt;</a>
-            <a href="planning.php?month=<?= $month->nextMonth()->month; ?>&year=<?= $month->nextMonth()->year; ?>" class="btn btn-primary">&gt;</a>
-        </div>
-    </div>
-    <div id="planning_container_table">
-        <table id="calendar_table" class="calendar__table calendar__table--<?= $month->getWeeks(); ?>weeks">
-            <?php for ($i = 0; $i < $month->getWeeks(); $i++): ?>
-                <thead>
-                <tr>0
-                    <?php
-                    foreach($month->days as $k => $day):
-                        $date = (clone $start)->modify("+" . ($k + $i *7) . " days")
-                        ?>
-                        <th class="<?= $month->withinMonth($date) ? '' : 'calendar__othermonth heure'; ?>"></th>
-                        <th>
-                            <?php  if ($i === 0): ?>
-                                <div class="calendar__weekday"><?= $day; ?></div>
-                            <?php endif; ?>
-                            <div class="calendar__day"><?= $date->format('d'); ?></div>
-                        </th>
-                    <?php endforeach; ?>
-                    <th class="tborder-right"></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
+        <th class="<?= $month->withinMonth($date) ? '' : 'calendar__othermonth'; ?>">
+            <?php if ($i === 0): ?>
+            <div class="calendar__weekday"> <?= $day; ?></div>
+            <?php endif; ?>
+            <div class="calendar__day"><?= $date->format('d'); ?></div>
+        </th>
+            <?php endforeach; ?>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
                     <td class="heure">8h</td>
                     <td></td>
                     <td></td>
@@ -196,162 +196,12 @@ require_once('../library/utils.php');
                     <td></td>
                     <td class="tborder-right"></td>
                 </tr>
-                <tr>
-                    <td class="tborder-down"></td>
-                    <td class="tborder-down"></td>
-                    <td class="tborder-down"></td>
-                    <td class="tborder-down"></td>
-                    <td class="tborder-down"></td>
-                    <td class="tborder-down"></td>
-                </tr>
-                </tbody>
-            <?php endfor; ?>
-        </table>
-    </div>
 
-    <!-- <div id="planning_container_titre">
-        <div id="planning_container_titre_h1">
-            <h1>Planning</h1>
-        </div>
+        <?php endfor; ?>
+    </tbody>
+</table>
+</main>
 
-    </div>
-    <div id="planning_container_table">
-        <table>
-            <thead>
-                <tr>
-                    <th class="heure"></th>
-                    <th>Lun. <br> <span class="jours active">18</span></th>
-                    <th>Mar. <br> <span class="jours">19</span></th>
-                    <th>Mer. <br> <span class="jours">20</span></th>
-                    <th>Jeu. <br> <span class="jours">21</span></th>
-                    <th>Ven. <br> <span class="jours">22</span></th>
-                    <th class="tborder-right"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="heure">8h</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="tborder-right"></td>
-                </tr>
-                <tr>
-                    <td class="heure">9h</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="tborder-right"></td>
-                </tr>
-                <tr>
-                    <td class="heure">10h</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="tborder-right"></td>
-                </tr>
-                <tr>
-                    <td class="heure">11h</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="tborder-right"></td>
-                </tr>
-                <tr>
-                    <td class="heure millieu">12h</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="tborder-right"></td>
-                </tr>
-                <tr>
-                    <td class="heure apre">13h</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="tborder-right"></td>
-                </tr>
-                <tr>
-                    <td class="heure apre">14h</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="tborder-right"></td>
-                </tr>
-                <tr>
-                    <td class="heure apre">15h</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="tborder-right"></td>
-                </tr>
-                <tr>
-                    <td class="heure apre">16h</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="tborder-right"></td>
-                </tr>
-                <tr>
-                    <td class="heure apre">17h</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="tborder-right"></td>
-                </tr>
-                <tr>
-                    <td class="heure apre">18h</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="tborder-right"></td>
-                </tr>
-                <tr>
-                    <td class="heure apre">19h</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="tborder-right"></td>
-                </tr>
-                <tr>
-                    <td class="tborder-down"></td>
-                    <td class="tborder-down"></td>
-                    <td class="tborder-down"></td>
-                    <td class="tborder-down"></td>
-                    <td class="tborder-down"></td>
-                    <td class="tborder-down"></td>
-                </tr>
-            </tbody>
-        </table>
-    </div> -->
-
-
-
-    <!-- = $day->format('d');  br> <span class="jours active">18</span>  -->
 
 
 

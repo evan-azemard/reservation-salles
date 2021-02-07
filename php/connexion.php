@@ -3,7 +3,6 @@ session_start();
 require_once('../library/utils.php');
 include('user.php');
 access('index.php');
-
 if(isset($_POST["connexion"])){
     $user = new Utilisateurs();
     $errors = $user->connexion($_POST['login'],$_POST['password'],$_POST['connexion']);

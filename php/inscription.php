@@ -1,7 +1,7 @@
 <?php
 session_start();
-require('user.php');
-require_once('../library/utils.php');
+require('User.php');
+require_once('../library/Utils.php');
 access('index.php');
 
 if(isset($_POST["inscription"])){

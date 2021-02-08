@@ -1,9 +1,8 @@
 <?php
 session_start();
-require('../php/table.php');
-require_once('../library/utils.php');
+require('../php/Table.php');
+require_once('../library/Utils.php');
 access2('');
-
 if(isset($_POST["reserver2"])){
     $date = $_POST['date1'];
 

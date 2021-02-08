@@ -89,8 +89,8 @@ class Reservation{
         $this->setHeure2($heure2);
         $this->setRe2($re2);
         $this->setLogin($login);
-        require_once('../library/database.php');
-        require_once('../library/utils.php');
+        require_once('../library/Database.php');
+        require_once('../library/Utils.php');
         $dbco = connectPdo();
         $errors = array();
 
@@ -128,6 +128,7 @@ class Reservation{
                     $id = $row["id"];
                 }
                 $this->setId($id);
+
 
                 $sql = $dbco->prepare("INSERT INTO reservations(titre, description, id_utilisateur, debut, fin) VALUES (?, ?, ?, ?, ?)");
                 $sql->execute(array($this->for_titre, $this->textarea, $this->id, $this->re, $this->re2));

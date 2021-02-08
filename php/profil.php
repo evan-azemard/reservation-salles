@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once('../library/utils.php');
-include('user.php');
+require_once('../library/Utils.php');
+include('User.php');
 access2('index.php');
 
 if(isset($_POST["modifier"])){

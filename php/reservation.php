@@ -1,8 +1,9 @@
 <?php
 session_start();
-include('user.php');
-require_once('../library/utils.php');
+include('User.php');
+require_once('../library/Utils.php');
 access2('');
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">

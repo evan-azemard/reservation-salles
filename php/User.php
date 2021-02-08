@@ -1,7 +1,7 @@
 <?php
 
-require_once('../library/database.php');
-require_once('../library/utils.php');
+require_once('../library/Database.php');
+require_once('../library/Utils.php');
 $dbco = connectPdo();
 $errors = array();
 
@@ -94,8 +94,8 @@ class Utilisateurs{
         $this->setPassword($password);
         $this->setR_password($r_password);
         $this->setInscription($inscription);
-        require_once('../library/database.php');
-        require_once('../library/utils.php');
+        require_once('../library/Database.php');
+        require_once('../library/Utils.php');
         $dbco = connectPdo();
         $errors = array();
 
@@ -151,8 +151,8 @@ class Utilisateurs{
         $this->setLogin($login);
         $this->setPassword($password);
         $this->setConnexion($connexion);
-        require_once('../library/database.php');
-        require_once('../library/utils.php');
+        require_once('../library/Database.php');
+        require_once('../library/Utils.php');
         $dbco = connectPdo();
         $errors = array();
 
@@ -192,8 +192,8 @@ class Utilisateurs{
         $this->setN_login($n_login);
         $this->setN_password($n_password);
         $this->setModifier($modifier);
-        require_once('../library/database.php');
-        require_once('../library/utils.php');
+        require_once('../library/Database.php');
+        require_once('../library/Utils.php');
         $dbco = connectPdo();
         $errors = array();
 

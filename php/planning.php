@@ -1,8 +1,10 @@
 <?php
 session_start();
-include('user.php');
-require('../php/table.php');
-require_once('../library/utils.php');
+include('User.php');
+require('../php/Table.php');
+require_once('../library/Utils.php');
+
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -56,9 +58,15 @@ require_once('../library/utils.php');
 </header>
 <main id="planning_main">
             <?php
-require 'Month.php';
+require 'Date.php';
+require 'Event.php';
+$events = new Events();
 $month = new Month($_GET['month'] ?? null, $_GET['year'] ?? null);
-$start = $month->getStartingDay()->modify('last monday');
+$start = $month->getStartingDay();
+$start = $start->format('N') === '1'  ? $start : $month->getStartingDay()->modify('last monday');
+$weeks = $month->getWeeks();
+$end =(clone $start)->modify('+' . (6 + 7 * ( $weeks - 1)) . ' days');
+$events = $events->getEventsBetweenByDay($start,$end);
 ?>
 
 <div class="d-flex flex-row aligne-item-center justify-content-between mx-sm-3">
@@ -70,26 +78,40 @@ $start = $month->getStartingDay()->modify('last monday');
 </div>
 
 
-<table class="calendar__table calendar__table--<?= $month->getWeeks(); ?>weeks" >
-    <?php for ($i = 0; $i < $month->getWeeks(); $i++): ?>
+<table class="calendar__table calendar__table--<?= $weeks; ?>weeks" >
+    <?php for ($i = 0; $i < $weeks; $i++): ?>
+    <tr id="invisibletd">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
     <thead>
-        <tr>
             <?php
         foreach ($month->days as $k => $day):
-            $date = (clone $start)->modify("+" . ($k + $i * 7) . "days")
+            $date = (clone $start)->modify("+" . ($k + $i * 7) . "days");
+            $eventsForDay = $events[$date->format('Y-m-d')] ?? [] ;
             ?>
         <th class="<?= $month->withinMonth($date) ? '' : 'calendar__othermonth'; ?>">
             <?php if ($i === 0): ?>
             <div class="calendar__weekday"> <?= $day; ?></div>
             <?php endif; ?>
             <div class="calendar__day"><?= $date->format('d'); ?></div>
+            <?php foreach ($eventsForDay as $event): ?>
+            <div class="calendar__event">
+                <?=   $_SESSION["login"]; ?> - <?= $event['titre']; ?>
+            </div>
+            <?php endforeach; ?>
         </th>
             <?php endforeach; ?>
-        </tr>
     </thead>
     <tbody>
         <tr>
                     <td class="heure">8h</td>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -104,10 +126,12 @@ $start = $month->getStartingDay()->modify('last monday');
                     <td></td>
                     <td></td>
                     <td></td>
+                    <td></td>
                     <td class="tborder-right"></td>
                 </tr>
                 <tr>
                     <td class="heure">10h</td>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -122,10 +146,12 @@ $start = $month->getStartingDay()->modify('last monday');
                     <td></td>
                     <td></td>
                     <td></td>
+                    <td></td>
                     <td class="tborder-right"></td>
                 </tr>
                 <tr>
                     <td class="heure millieu">12h</td>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -140,10 +166,12 @@ $start = $month->getStartingDay()->modify('last monday');
                     <td></td>
                     <td></td>
                     <td></td>
+                    <td></td>
                     <td class="tborder-right"></td>
                 </tr>
                 <tr>
                     <td class="heure apre">14h</td>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -158,10 +186,12 @@ $start = $month->getStartingDay()->modify('last monday');
                     <td></td>
                     <td></td>
                     <td></td>
+                    <td></td>
                     <td class="tborder-right"></td>
                 </tr>
                 <tr>
                     <td class="heure apre">16h</td>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -176,6 +206,7 @@ $start = $month->getStartingDay()->modify('last monday');
                     <td></td>
                     <td></td>
                     <td></td>
+                    <td></td>
                     <td class="tborder-right"></td>
                 </tr>
                 <tr>
@@ -185,10 +216,12 @@ $start = $month->getStartingDay()->modify('last monday');
                     <td></td>
                     <td></td>
                     <td></td>
+                    <td></td>
                     <td class="tborder-right"></td>
                 </tr>
                 <tr>
                     <td class="heure apre">19h</td>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>

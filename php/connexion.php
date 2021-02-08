@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once('../library/utils.php');
-include('user.php');
+require_once('../library/Utils.php');
+include('User.php');
 access('index.php');
 if(isset($_POST["connexion"])){
     $user = new Utilisateurs();

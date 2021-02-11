@@ -3,7 +3,7 @@ session_start();
 require('../php/Table.php');
 require_once('../library/Utils.php');
 access2('');
-if(isset($_POST["reserver2"])){
+if (isset($_POST["reserver2"])){
     $date = $_POST['date1'];
 
     $heure1 = $_POST['heure1'];
@@ -76,9 +76,9 @@ else {
     </div>
     <?php
     foreach ($errors as $error) {
-        echo "<div id='error_ins'> <center>";
+        echo "<div id='error_ins'>";
         echo "• " . $error . "<br>";
-        echo "</center></div>";
+        echo "</div>";
 
     }
     ?>

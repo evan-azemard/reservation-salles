@@ -56,7 +56,7 @@ class Reservation{
     {
         return $this->re2;
     }
-    public function setRe2($re2)
+     function setRe2($re2)
     {
         $this->re2 = $re2;
     }
@@ -108,11 +108,22 @@ class Reservation{
             if (strlen($this->textarea) < 5) {
                 array_push($errors, "La description est trop courte !");
             }
-            if($this->heure1 == "Heure") {
+            if ($this->heure1 == "Heure") {
                 array_push($errors, "Choisissez une heure de départ ! ");
             }
             $sel = $dbco->prepare("SELECT * FROM reservations");
             $sel->execute();
+
+            $heure = $this->heure1;
+            $req = $dbco->prepare('SELECT * FROM reservations WHERE  $heure  BETWEEN debut AND fin');
+            $result = $req->fetchAll();
+//        $result = $req->rowCount();
+            if ($result == 0) {
+                return TRUE;
+            } else {
+                 array_push($errors, "Cette réservation est déjà prise");
+            }
+
             foreach ($sel as $row) {
                 if ($row["titre"] == $this->for_titre) {
                     array_push($errors, "Le titre est déja utilisé");
@@ -139,5 +150,6 @@ class Reservation{
 
         }
     }
+
 }
 ?>

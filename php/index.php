@@ -36,6 +36,7 @@ require_once('../library/Utils.php');
         </div>
         <?php centreTitre()?>
         <h1>Tartanpion</h1>
+
     </div>
     <?php pseudo(); ?>
     </div>

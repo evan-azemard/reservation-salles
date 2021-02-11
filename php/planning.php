@@ -1,6 +1,4 @@
 <?php
-session_start();
-include('User.php');
 require('../php/Table.php');
 require_once('../library/Utils.php');
 
@@ -102,7 +100,7 @@ $events = $events->getEventsBetweenByDay($start,$end);
             <div class="calendar__day"><?= $date->format('d'); ?></div>
             <?php foreach ($eventsForDay as $event): ?>
             <div class="calendar__event">
-                <?=   $_SESSION["login"]; ?> - <?= $event['titre']; ?>
+                <?=   $_SESSION["login"]; ?> - <a href="reservation.php?id=<?= $event['id']; ?>"> <?= $event['titre']; ?> </a>
             </div>
             <?php endforeach; ?>
         </th>

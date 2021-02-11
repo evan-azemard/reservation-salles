@@ -40,6 +40,7 @@
 	flex-direction: column;
 	background-color: white;
 	font-size: 2vh;
+	text-align: center;
 }
 
 
@@ -178,7 +179,7 @@ a{
 	margin-right: 1%;
 	color: silver;
 	height: 8vh;
-	width: 8vw;
+	min-width: 1vw;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;

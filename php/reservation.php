@@ -2,9 +2,20 @@
 session_start();
 include('User.php');
 require_once('../library/Utils.php');
+require 'planning.php';
+require_once('../library/Database.php');
 access2('');
+$dbco = connectPdo();
+
+$event = new Events($dbco);
+if (!isset($_GET['id'])) {
+    redirect("index.php");
+}
+
 
 ?>
+
+<h1> <?= $event ?></h1>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -60,18 +71,18 @@ access2('');
         <div id="reservation_container_main_container1">
             <div id="main_container1_1">
                 <div id="main_container1_1_text">
-                    <h1 class="marclair">Projection how to train your dragon</h1>
+                    <h1 class="marclair"><?= htmlentities($event['titre']); ?> </h1>
                 </div>
             </div>
             <div id="main_container1_2">
                 <div id="main_container1_2_text" class="colorgray">
-                    <p>Film d'annimation réalisé par Dean DeBlois et Chris Sanders. Il est sorti le 26 mars 2010</p>
+                    <p><?= htmlentities($event['description']); ?> </p>
                 </div>
             </div>
             <div id="main_container1_3">
                 <div id="main_container1_3_text">
-                    <p class="marclair">Heure de début : 17h</p>
-                    <p class="marclair">Heure de fin : 18h</p>
+                    <p class="marclair">Heure de début : <?= (new DateTime(event['debut']))->format('d/m/Y'); ?></p>
+                    <p class="marclair">Heure de fin : <?= (new DateTime(event['fin']))->format('d/m/Y'); ?></p>
                 </div>
             </div>
             <div id="main_container1_4">

@@ -13,13 +13,12 @@ class Events
 
     public function getEventsBetween(DateTime $start, DateTime $end): array
     {
-        $pdo = new PDO('mysql:host=localhost;dbname=reservationsalles', 'root', '', [
-            PDO:: ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-        ]);
+        require_once('../library/Database.php');
+        $dbco = connectPdo();
+
         $sql = "SELECT * FROM reservations WHERE debut BETWEEN '{$start->format('Y-m-d 00:00:00')}' AND 
     '{$end->format('Y-m-d 23:59:59')}'";
-        $statement = $pdo->query($sql);
+        $statement = $dbco->query($sql);
         $results = $statement->fetchAll();
         return $results;
 
@@ -47,5 +46,18 @@ class Events
         return $days;
     }
 
+    /**
+     * Récupère un évènement
+     * @param int $id
+     * @return array
+     */
+
+    public function  find (int $id): array {
+        require_once('../library/Database.php');
+        $dbco = connectPdo();
+
+        return $dbco->query("SELECT * FROM reservations WHERE id = $id LIMIT 1")->fetch();
+    }
 
 }
+

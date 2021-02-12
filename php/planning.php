@@ -233,10 +233,6 @@ $events = $events->getEventsBetweenByDay($start,$end);
 </table>
 </main>
 
-
-
-
-</main>
 <footer id="planning_footer">
     <div id="index_footer_container1">
         <div id="footer_container1_titre">

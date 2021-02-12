@@ -5,7 +5,8 @@ require_once('../library/Utils.php');
 $dbco = connectPdo();
 $errors = array();
 
-class Utilisateurs{
+class Utilisateurs
+{
     private $inscription;
     private $login;
     private $password;
@@ -17,78 +18,90 @@ class Utilisateurs{
     private $n_login;
 
 
-
     public function getInscription()
     {
         return $this->inscription;
     }
+
     public function setInscription($inscription)
     {
         $this->inscription = $inscription;
     }
+
     public function getConnexion()
     {
         return $this->connexion;
     }
+
     public function setConnexion($connexion)
     {
         $this->connexion = $connexion;
     }
+
     public function getModifier()
     {
         return $this->modifier;
     }
+
     public function setModifier($modifier)
     {
         $this->modifier = $modifier;
     }
+
     public function getLogin()
     {
         return $this->login;
     }
+
     public function setLogin($login)
     {
         $this->login = $login;
     }
+
     public function getPassword()
     {
         return $this->password;
     }
+
     public function setPassword($password)
     {
         $this->password = $password;
     }
+
     public function getR_password()
     {
         return $this->r_password;
     }
+
     public function setR_password($r_password)
     {
         $this->r_password = $r_password;
     }
+
     public function getN_password()
     {
         return $this->n_password;
     }
+
     public function setN_password($n_password)
     {
         $this->n_password = $n_password;
     }
+
     public function getN_login()
     {
         return $this->n_login;
     }
+
     public function setN_login($n_login)
     {
         $this->n_login = $n_login;
     }
 
 
-
-
-
     //   INSCRIPTION
-    public function register($login,$password,$r_password,$inscription){
+    public function register($login, $password, $r_password, $inscription)
+    {
 
         $this->setLogin($login);
         $this->setPassword($password);
@@ -98,7 +111,6 @@ class Utilisateurs{
         require_once('../library/Utils.php');
         $dbco = connectPdo();
         $errors = array();
-
 
 
         $hpass = password_hash($this->password, PASSWORD_DEFAULT);
@@ -116,10 +128,12 @@ class Utilisateurs{
             if ($this->login == $this->password) {
                 array_push($errors, "Le pseudo et le mot de passe ne doivent pas être identique");
             }
-            if (strLen($this->password) < 5) {
-                array_push($errors, "Le mot de passe dois faire au moins 5 caractères");
+            $password_required = preg_match('%^(?=[^A-Z]*+.)(?=[^a-z]*+.)(?=[^0-9]*+.)(?=[^\W]*+.)%', $this->password);
+           var_dump($password_required);
+            if (!$password_required) {
+                array_push($errors, 'Il faut au moins: 1 caractère spéciale, majuscule, nombre. ');
             }
-        }else array_push($errors, "Veuillez remplir tous les champs");
+        } else array_push($errors, "Veuillez remplir tous les champs");
 
 
         $sel = $dbco->prepare("SELECT * FROM utilisateurs");
@@ -133,21 +147,19 @@ class Utilisateurs{
         }
         if (count($errors) < 1) {
             $sql = $dbco->prepare("INSERT INTO utilisateurs (login, password) VALUES (?, ?)");
-            $sql->execute(array($this->login,$hpass));
+            $sql->execute(array($this->login, $hpass));
             redirect("connexion.php");
-        }else{
-            return  $errors ;
+        } else {
+            return $errors;
         }
 
     }
 
 
-
-
-
     //connexion
 
-    public function connexion($login,$password,$connexion){
+    public function connexion($login, $password, $connexion)
+    {
         $this->setLogin($login);
         $this->setPassword($password);
         $this->setConnexion($connexion);
@@ -164,8 +176,8 @@ class Utilisateurs{
             $tab = $sel->fetch();
             $hpass = $tab["password"];
 
-            if(!password_verify($this->password, $hpass)) {
-                array_push($errors,'<center> Mot de passe invalide </center>');
+            if (!password_verify($this->password, $hpass)) {
+                array_push($errors, 'Mot de passe invalide');
 
             }
             if (count($errors) < 1) {
@@ -173,13 +185,14 @@ class Utilisateurs{
                 $_SESSION["id"] = $tab["id"];
                 $_SESSION["login"] = ucfirst(strtolower($tab["login"]));
                 redirect("index.php");
-            }else{
-                return  $errors ;
+            } else {
+                return $errors;
             }
 
         }
 
     }
+
 
 
 

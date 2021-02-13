@@ -55,182 +55,87 @@ require_once('../library/Utils.php');
     </div>
 </header>
 <main id="planning_main">
+<div class="planning_container_table">
+<table>
+            <thead>
+                <tr>
+                    <th class="vide"></th>
+                    <th class="jour">Lun.<br> <?php echo $jour_semaine = date('d/m', strtotime('monday this week'));?></th>
+                    <th class="jour">Mar.<br> <?php echo $jour_semaine = date('d/m', strtotime('tuesday this week'));?></th>
+                    <th class="jour">Mer.<br> <?php echo $jour_semaine = date('d/m', strtotime('wednesday this week'));?></th>
+                    <th class="jour">Jeu.<br> <?php echo $jour_semaine = date('d/m', strtotime('thursday this week'));?></th>
+                    <th class="jour">Ven.<br> <?php echo $jour_semaine = date('d/m', strtotime('friday this week'));?></th>
+                </tr>
+            </thead>
+            <tbody>
+               <!-- --><?php /*include 'include/php_planning.php';*/?>
             <?php
-require 'Date.php';
-require 'Event.php';
-$events = new Events();
-$month = new Month($_GET['month'] ?? null, $_GET['year'] ?? null);
-$start = $month->getStartingDay();
-$start = $start->format('N') === '1'  ? $start : $month->getStartingDay()->modify('last monday');
-$weeks = $month->getWeeks();
-$end =(clone $start)->modify('+' . (6 + 7 * ( $weeks - 1)) . ' days');
-$events = $events->getEventsBetweenByDay($start,$end);
-?>
 
-<div class="d-flex flex-row aligne-item-center justify-content-between mx-sm-3">
-    <h1><?= $month->toString(); ?></h1>
-    <div>
-        <a href="planning.php?month=<?= $month->previoustMonth()->month; ?>&year=<?= $month->previoustMonth()->year; ?>" class="btn btn-primary">&lt</a>
-        <a href="planning.php?month=<?= $month->nextMonth()->month; ?>&year=<?= $month->nextMonth()->year; ?>" class="btn btn-primary">&gt</a>
-    </div>
+for($heure = 8; $heure <= 19; $heure++)//génération lignes des heures
+            {
+                ?>
+                <tr>
+                    <td class="heure"><p><?php echo $heure . "h";?></p></td>
+                <?php
+                for($jour = 1; $jour<=5; $jour++)//génération des cellules sous les jours
+                    {
+                        if(!empty($info_resa))
+                            {
+                                foreach($info_resa as $resa => $Hresa)//sépare les réservations
+                                    {
+                                        $JH = explode(" ", $Hresa["debut"]);//sélection la ligne correspondant à l'heure de début
+
+                                        $H = explode(":", $JH[1]);//explose l'heure
+                                        $heure_resa = date("G", mktime($H[0], $H[1], $H[2], 0, 0, 0));//récupère uniquement l'heure sans le 0
+
+                                        $J = explode("-", $JH[0]);//explose la date
+                                        $jour_resa = date("N", mktime(0, 0, 0, $J[1], $J[2], $J[0]));//récupère le numéro du jour
+
+                                        $case_resa = $heure_resa . $jour_resa;//crée un numéro de réservation
+
+                                        $titre = $Hresa["titre"];
+                                        $login = $Hresa["login"];
+                                        $id = $Hresa["id"];
+
+                                        $case = $heure . $jour;//Crée un numéro pour chaque cellules
+
+                                        if($case == $case_resa)
+                                            {
+                                                ?>
+                                                    <td class="resa"><a href="reservation.php?evenement=<?php echo $id;?>"><p><?php echo $titre;?></p><p><?php echo $login;?></p></a></td>
+                                                <?php
+                                                break;
+                                            }
+                                        else //si pas de correspondance set $case à null pour éviter trop d'affchage
+                                            {
+                                                $case = null;
+                                            }
+                                    }
+                                if ($case == null)
+                                    {
+                                        ?>
+                                        <td class="case"><a href="reservation-form.php?heure_debut=<?php echo $heure;?>&amp;date_debut=<?php echo $jour;?>">Réserver un créneau</a></td>
+                                        <?php
+                                    }
+                            }
+                        else
+                            {
+                                ?>
+                                <td class="case"><a href="reservation-form.php?heure_debut=<?php echo $heure;?>&amp;date_debut=<?php echo $jour;?>">Réserver un créneau</a></td>
+                                <?php
+                            }
+                    }
+                ?>
+                </tr>
+                <?php
+            }
+?>
+            </tbody>
+        </table>
 </div>
 
 
-<table class="calendar__table calendar__table--<?= $weeks; ?>weeks" >
-    <?php for ($i = 0; $i < $weeks; $i++): ?>
-    <tr id="invisibletd">
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <thead>
-            <?php
-        foreach ($month->days as $k => $day):
-            $date = (clone $start)->modify("+" . ($k + $i * 7) . "days");
-            $eventsForDay = $events[$date->format('Y-m-d')] ?? [] ;
-            ?>
-        <th class="<?= $month->withinMonth($date) ? '' : 'calendar__othermonth'; ?>">
-            <?php if ($i === 0): ?>
-            <div class="calendar__weekday"> <?= $day; ?></div>
-            <?php endif; ?>
-            <div class="calendar__day"><?= $date->format('d'); ?></div>
-            <?php foreach ($eventsForDay as $event): ?>
-            <div class="calendar__event">
-                <?=   $_SESSION["login"]; ?> - <a href="reservation.php?id=<?= $event['id']; ?>"> <?= $event['titre']; ?> </a>
-            </div>
-            <?php endforeach; ?>
-        </th>
-            <?php endforeach; ?>
-    </thead>
-    <tbody>
-        <tr>
-                    <td class="heure">8h</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="tborder-right"></td>
-                </tr>
-                <tr>
-                    <td class="heure">9h</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="tborder-right"></td>
-                </tr>
-                <tr>
-                    <td class="heure">10h</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="tborder-right"></td>
-                </tr>
-                <tr>
-                    <td class="heure">11h</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="tborder-right"></td>
-                </tr>
-                <tr>
-                    <td class="heure millieu">12h</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="tborder-right"></td>
-                </tr>
-                <tr>
-                    <td class="heure apre">13h</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="tborder-right"></td>
-                </tr>
-                <tr>
-                    <td class="heure apre">14h</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="tborder-right"></td>
-                </tr>
-                <tr>
-                    <td class="heure apre">15h</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="tborder-right"></td>
-                </tr>
-                <tr>
-                    <td class="heure apre">16h</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="tborder-right"></td>
-                </tr>
-                <tr>
-                    <td class="heure apre">17h</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="tborder-right"></td>
-                </tr>
-                <tr>
-                    <td class="heure apre">18h</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="tborder-right"></td>
-                </tr>
-                <tr>
-                    <td class="heure apre">19h</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="tborder-right"></td>
-                </tr>
 
-        <?php endfor; ?>
-    </tbody>
-</table>
 </main>
 
 <footer id="planning_footer">

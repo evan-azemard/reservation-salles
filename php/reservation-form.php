@@ -3,20 +3,19 @@ session_start();
 require('../php/Table.php');
 require_once('../library/Utils.php');
 access2('');
+//si on réserve
 if (isset($_POST["reserver2"])){
     $date = $_POST['date1'];
 
     $heure1 = $_POST['heure1'];
+    $heure2 = $heure1 + 1 ; //On créer l'heure de fin
 
-    $heure2 = $heure1 + 1 ;
-
-
-
+    //on ajoute à la date l'heure et on crée la date de fin
     $re = "$date-$heure1";
     $re2 = "$date-$heure2";
 
     $reserv = new Reservation();
-    $errors = $reserv->reserver($_POST['for_titre'],$_POST['textarea'],$_SESSION['login'], $re,$re2,$heure1,$heure2);
+    $errors = $reserv->reserver($_POST['for_titre'],$_POST['textarea'], $re,$re2,$heure1,$heure2,$date,$_SESSION['login']);
 }
 
 else {

@@ -772,14 +772,14 @@ td p
     }
 .resa a
     {
-        color: #cfbb06;
+        color: #923e02;
         display: flex;
         flex-direction: column;
         align-items: center;
     }
 .resa a:hover
     {
-        color: #edcc06;
+        color: #572104;
         text-decoration: none;
     }
 .vide

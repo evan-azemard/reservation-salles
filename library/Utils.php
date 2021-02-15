@@ -30,7 +30,7 @@ function disconnect(){
 
 
 
-//function afficher pseudo si connecté
+//affiche pseudo si connecté
 
 function pseudo(){
 
@@ -58,7 +58,7 @@ function centreTitre(){
 			echo '<div id="index_header_titre">';
 		}
 }
-//centrage tire du planning
+//centrage tire du planning si connecté ou pas
 function centreTitre2(){
 
 		if(!isset($_SESSION['id'])){
@@ -97,8 +97,6 @@ function remplace($url,$name){
 			echo "</a>";
 		}
 }
-
-
 
 function remplace2($nameA,$urlA,$nameB,$urlB){
 		if(isset($_SESSION['id'])){

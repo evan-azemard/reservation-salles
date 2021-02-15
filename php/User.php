@@ -129,7 +129,7 @@ class Utilisateurs
                 array_push($errors, "Le pseudo et le mot de passe ne doivent pas être identique");
             }
             $password_required = preg_match('%^(?=[^A-Z]*+.)(?=[^a-z]*+.)(?=[^0-9]*+.)(?=[^\W]*+.)%', $this->password);
-           var_dump($password_required);
+/*           var_dump($password_required);*/
             if (!$password_required) {
                 array_push($errors, 'Il faut au moins: 1 caractère spéciale, majuscule, nombre. ');
             }
@@ -194,10 +194,6 @@ class Utilisateurs
     }
 
 
-
-
-
-
     //profil
 
     public function profil($n_login,$n_password,$modifier){
@@ -250,6 +246,4 @@ class Utilisateurs
 
     }
 }
-
-
 ?>

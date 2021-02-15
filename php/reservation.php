@@ -1,24 +1,19 @@
 <?php
-            if(isset($_GET["evenement"]) && !empty($_GET["evenement"]))
-                {
-                    $id = $_GET["evenement"];
+if(isset($_GET["evenement"]) && !empty($_GET["evenement"])) {
+    $id = $_GET["evenement"];
+    require_once('../library/Database.php');
+    $dbco = connectPdo();
+    $requete= $dbco->prepare("SELECT * FROM reservations INNER JOIN utilisateurs ON utilisateurs.id = reservations.id_utilisateur WHERE reservations.id = '$id'");
+    $requete->execute();
+    $resa = $requete->fetchAll();
 
-                   require_once('../library/Database.php');
-                    $dbco = connectPdo();
-                    $requete= $dbco->prepare("SELECT * FROM reservations INNER JOIN utilisateurs ON utilisateurs.id = reservations.id_utilisateur WHERE reservations.id = '$id'");
-                    $requete->execute();
-                    $resa = $requete->fetchAll();
+    $titre = $resa[0]['titre'];
+    $login = $resa[0]['login'];
+    $description = $resa[0]['description'];
 
-                    $titre = $resa[0]['titre'];
-                    $login = $resa[0]['login'];
-                    $description = $resa[0]['description'];
-
-                    $debut = $resa[0]['debut'];
-                    $fin = $resa[0]['fin'];
-
-
-                }
-
+    $debut = $resa[0]['debut'];
+    $fin = $resa[0]['fin'];
+}
 ?>
 <?php
 session_start();
@@ -40,38 +35,7 @@ access2('');
     <title>Reservation</title>
 </head>
 <body id="reservation_body">
-<div id="h_main">
-    <nav id="h_container">
-        <ul>
-            <li>Menu
-                <ul>
-                    <li><a href="index.php"> Home </a></li>
-                    <li><a href="planning.php">Planning</a></li>
-                    <li><a href="reservation-form.php">Reservation</a></li>
-                </ul>
-            </li>
-        </ul>
-    </nav>
-</div>
-<header id="index_header">
-    <div class="index_header_container">
-        <div id="index_header_menu">
-
-        </div>
-        <?php centreTitre()?>
-        <h1>Tartanpion</h1>
-    </div>
-    <?php pseudo(); ?>
-    </div>
-    <div class="index_header_container">
-        <div class="index_ins-conex">
-            <?php remplace('inscription.php','inscription'); ?>
-        </div>
-        <div class="index_ins-conex">
-            <?php remplace2('profil','profil.php','connexion','connexion.php'); ?>
-        </div>
-    </div>
-</header>
+<?php include 'header/header_reservation.php'?>
 <main id="reservation_main">
     <div id="reservation_container_titre">
         <div id="reservation_container_titre_h1">
@@ -128,36 +92,6 @@ access2('');
         </div>
     </div>
 </main>
-<footer id="index_footer">
-    <div id="index_footer_container1">
-        <div id="footer_container1_titre">
-            <p>Tartanpion</p>
-        </div>
-    </div>
-    <div id="index_footer_container2">
-        <div class="footer_container2_mentions">
-            <p>Contacter</p>
-        </div>
-        <div class="footer_container2_mentions">
-            <p>Politic</p>
-        </div>
-        <div class="footer_container2_mentions">
-            <p>Histoire</p>
-        </div>
-    </div>
-    <div id="index_footer_container3">
-        <div class="footer_container3_nom">
-            <p>Claude Rodriguez</p>
-        </div>
-        <div id="footer_container3_trait">
-            <div id="footer_trait">
-                <p>.</p>
-            </div>
-        </div>
-        <div class="footer_container3_nom">
-            <p>Evan Azemard</p>
-        </div>
-    </div>
-</footer>
+<?php include 'footer/footer_reservation.php';?>
 </body>
 </html>

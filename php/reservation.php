@@ -1,21 +1,32 @@
 <?php
+            if(isset($_GET["evenement"]) && !empty($_GET["evenement"]))
+                {
+                    $id = $_GET["evenement"];
+
+                   require_once('../library/Database.php');
+                    $dbco = connectPdo();
+                    $requete= $dbco->prepare("SELECT * FROM reservations INNER JOIN utilisateurs ON utilisateurs.id = reservations.id_utilisateur WHERE reservations.id = '$id'");
+                    $requete->execute();
+                    $resa = $requete->fetchAll();
+
+                    $titre = $resa[0]['titre'];
+                    $login = $resa[0]['login'];
+                    $description = $resa[0]['description'];
+
+                    $debut = $resa[0]['debut'];
+                    $fin = $resa[0]['fin'];
+
+
+                }
+
+?>
+<?php
 session_start();
-include('User.php');
 require_once('../library/Utils.php');
-require 'planning.php';
-require_once('../library/Database.php');
 access2('');
-$dbco = connectPdo();
-
-$event = new Events($dbco);
-if (!isset($_GET['id'])) {
-    redirect("index.php");
-}
-
 
 ?>
 
-<h1> <?= $event ?></h1>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -71,30 +82,30 @@ if (!isset($_GET['id'])) {
         <div id="reservation_container_main_container1">
             <div id="main_container1_1">
                 <div id="main_container1_1_text">
-                    <h1 class="marclair"><?= htmlentities($event['titre']); ?> </h1>
+                    <h1 class="marclair"><?= htmlentities($titre); ?> </h1>
                 </div>
             </div>
             <div id="main_container1_2">
                 <div id="main_container1_2_text" class="colorgray">
-                    <p><?= htmlentities($event['description']); ?> </p>
+                    <p><?= htmlentities($description); ?> </p>
                 </div>
             </div>
             <div id="main_container1_3">
                 <div id="main_container1_3_text">
-                    <p class="marclair">Heure de début : <?= (new DateTime(event['debut']))->format('d/m/Y'); ?></p>
-                    <p class="marclair">Heure de fin : <?= (new DateTime(event['fin']))->format('d/m/Y'); ?></p>
+                    <p class="marclair">Heure de début : <?= $debut ?></p>
+                    <p class="marclair">Heure de fin : <?= $fin ?></p>
                 </div>
             </div>
             <div id="main_container1_4">
                 <div id="main_container1_4_text">
-                    <p class="marclair">Alexandro pgon</p>
+                    <p class="marclair"><?= htmlentities($login)?></p>
                 </div>
             </div>
         </div>
         <div id="reservation_container_main_container2">
             <div id="main_container2_1">
                 <div id="main_container2_1_text">
-                    <h1 class="marclair">Salle TomTom</h1>
+                    <h1 class="marclair">Jullien Doré</h1>
                 </div>
             </div>
             <div id="main_container2_2">

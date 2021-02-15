@@ -116,9 +116,9 @@ class Reservation
             $semaine = explode("-", $this->date);
             $jour = date("N", mktime(0, 0, 0, $semaine[1], $semaine[2], $semaine[0]));
 
-            var_dump($debut_str);
+/*          var_dump($debut_str);
             var_dump($semaine);
-            var_dump($jour);
+            var_dump($jour);*/
 
             if($debut_str<time()) {
                 array_push($errors, " L'heure est déjà passée");
@@ -144,7 +144,7 @@ class Reservation
 
             //Verifie que la réservation n'est pas dejà prise
             $heure = $this->heure1;
-            var_dump($heure);
+/*            var_dump($heure);*/
             $req = $dbco->prepare('SELECT * FROM reservations WHERE  $heure  BETWEEN debut AND fin');
             $result = $req->fetchAll();
             if ($result == 1)

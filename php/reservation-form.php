@@ -3,7 +3,6 @@ session_start();
 require('../php/Table.php');
 require_once('../library/Utils.php');
 access2('');
-//si on réserve
 if (isset($_POST["reserver2"])){
     $date = $_POST['date1'];
 
@@ -85,7 +84,7 @@ else {
         <div id="form_cnt2_main">
             <div id="form_cnt2_1">
                 <div id="form_cnt2-1_label">
-                    <label for="input_titre">Entrer le titre :</label>
+                    <label for="input_titre"><Entrer le titre :</label>
                 </div>
                 <div id="form_cnt2-1_input">
                     <form method="post">

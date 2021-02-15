@@ -82,30 +82,30 @@ access2('');
         <div id="reservation_container_main_container1">
             <div id="main_container1_1">
                 <div id="main_container1_1_text">
-                    <h1 class="marclair"><?= htmlentities($titre); ?> </h1>
+                    <h1 class="marclair">Titre:<br><!--&nbsp;&nbsp;--><?= Htmlspecialchars($titre); ?> </h1>
                 </div>
             </div>
             <div id="main_container1_2">
                 <div id="main_container1_2_text" class="colorgray">
-                    <p><?= htmlentities($description); ?> </p>
+                    <p>Description:<br><?=Htmlspecialchars($description); ?> </p>
                 </div>
             </div>
             <div id="main_container1_3">
                 <div id="main_container1_3_text">
-                    <p class="marclair">Heure de début : <?= $debut ?></p>
-                    <p class="marclair">Heure de fin : <?= $fin ?></p>
+                    <p class="marclair">Heure/date de début: <?= Htmlspecialchars($debut) ?></p>
+                    <p class="marclair">Heure/date de fin: <?= Htmlspecialchars($fin) ?></p>
                 </div>
             </div>
             <div id="main_container1_4">
                 <div id="main_container1_4_text">
-                    <p class="marclair"><?= htmlentities($login)?></p>
+                    <p class="marclair">Réservation déposé par:<br><?= Htmlspecialchars($login)?></p>
                 </div>
             </div>
         </div>
         <div id="reservation_container_main_container2">
             <div id="main_container2_1">
                 <div id="main_container2_1_text">
-                    <h1 class="marclair">Jullien Doré</h1>
+                    <h1 class="marclair">Salle:&nbsp;Jullien Doré</h1>
                 </div>
             </div>
             <div id="main_container2_2">

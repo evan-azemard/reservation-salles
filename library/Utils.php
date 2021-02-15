@@ -40,7 +40,7 @@ function pseudo(){
 		echo '<div id="index_header_username">';
 		echo '<div id="lien_profil_header">';
 		echo '<a href="profil.php">';
-		echo  $_SESSION["login"]; 
+		echo  Htmlspecialchars($_SESSION["login"]);
 		echo '</a>';
 		echo '</div>';
 		echo '</div>';
